@@ -70,7 +70,7 @@ const sidebarConfigLogin = [
     icon: getIcon(fileTextFill)
   },
   {
-    title: 'Not found',
+    title: 'holidays',
     path: '/404',
     icon: getIcon(alertTriangleFill)
   }

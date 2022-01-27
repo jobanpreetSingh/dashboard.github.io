@@ -23,15 +23,16 @@ import {
   AppConversionRates,
 } from '../components/_dashboard/app';
 import AppMondayCom from 'src/components/_dashboard/app/AppMondayCom';
+import AppHolidays from 'src/components/_dashboard/app/AppHolidays';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
   const [organization, setOrganization] = useState();
-
+  const { REACT_APP_ORGANIZATION_URL } = process.env
   const getOrganization = async () => {
     try {
-      const response = await fetch('http://localhost:3000/org');
+      const response = await fetch(REACT_APP_ORGANIZATION_URL);
       const organization = await response.json();
       setOrganization(organization)
     } catch (error) {
@@ -64,6 +65,9 @@ export default function DashboardApp() {
           </Grid>
           <Grid item xs={12} md={6} lg={8}>
             <AppMondayCom />
+          </Grid>
+          <Grid item xs={12} md={6} lg={8}>
+            <AppHolidays />
           </Grid>
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits />

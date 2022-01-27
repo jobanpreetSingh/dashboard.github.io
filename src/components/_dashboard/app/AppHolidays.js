@@ -17,7 +17,7 @@ import Scrollbar from '../../Scrollbar';
 
 // eslint-disable-next-line react/prop-types
 function NewsItem({ news }) {
-    const { id, name } = news;
+    const { date, name, } = news;
 
     return (
         <Stack direction="row" alignItems="center" spacing={2}>
@@ -30,7 +30,7 @@ function NewsItem({ news }) {
             <Box sx={{ minWidth: 240 }}>
                 <Link to="#" color="inherit" underline="hover" component={RouterLink}>
                     <Typography variant="subtitle2" noWrap>
-                        {id}
+                        Day  {date}
                     </Typography>
                 </Link>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
@@ -44,38 +44,29 @@ function NewsItem({ news }) {
     );
 }
 
-export default function AppMondayCom() {
-    const [monday, setMonday] = useState();
-    const { REACT_APP_MONDAY_TOKEN } = process.env
-    const mondayCOM = async () => {
+export default function AppHolidays() {
+    const [holidays, setHolidays] = useState();
+    const { REACT_APP_HOLIDAYS_URL } = process.env
+    const holidaysHandler = async () => {
         try {
-            const res = await fetch("https://api.monday.com/v2", {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': REACT_APP_MONDAY_TOKEN,
-                },
-                body: JSON.stringify({
-                    'query': '{ boards (limit:5)  {id name}  }'
-                })
-            });
+            const res = await fetch(REACT_APP_HOLIDAYS_URL)
             const response = await res.json()
-            setMonday(response.data.boards)
+            setHolidays(response.holidays)
 
         } catch (error) {
             console.log(error)
         }
     }
     useEffect(() => {
-        mondayCOM()
+        holidaysHandler()
     }, [])
     return (
         <Card>
-            <CardHeader title="Data From monday.com" />
+            <CardHeader title="Holidays Hubstaff" />
             <Scrollbar>
                 <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-                    {monday && monday.map((news) => (
-                        <NewsItem key={news.title} news={news} />
+                    {holidays && holidays.map((news) => (
+                        <NewsItem key={news.id} news={news} />
                     ))}
                 </Stack>
             </Scrollbar>
